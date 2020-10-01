@@ -1,0 +1,13 @@
+{
+    "refresh_seconds": 45,
+    "telegram_token": null,
+    "site": {
+        "url": "https://www.nvidia.com/nl-nl/geforce/graphics-cards/30-series/rtx-3080/",
+        "nostock": "Niet op voorraad"
+    },
+    "api": {
+        "url": "https://api-prod.nvidia.com/direct-sales-shop/DR/products/nl_nl/EUR/5438796700",
+        "nostock": "PRODUCT_INVENTORY_OUT_OF_STOCK"
+    },
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
+}

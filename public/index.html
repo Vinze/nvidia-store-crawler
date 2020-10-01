@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>NVIDIA check</title>
+</head>
+<body>
+    <div class="container" id="app" v-cloak>
+        <h1>NVIDIA check <span>{{ clock }}</span></h1>
+        <p><a href="https://www.nvidia.com/nl-nl/geforce/graphics-cards/30-series/rtx-3080/" target="_blank">Click here to open the NVIDIA store</a></p>
+        <div class="content" v-if="started">
+            <table>
+                <tr v-for="message in messages">
+                    <td class="ts">{{ message.ts }}</td>
+                    <td class="from">{{ message.from }}:</td>
+                    <td :class="message.classname">{{ message.text }}</td>
+                </tr>
+            </table>
+        </div>
+        <p v-else>
+            <button @click="start()">Start application</button>
+        </p>
+    </div>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="vue.min.js"></script>
+    <script src="dayjs.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                clock: '',
+                started: false,
+                messages: []
+            },
+            methods: {
+                start() {
+                    var t = this;
+                    t.started = true;
+
+                    var audio = new Audio('horn.mp3');
+                    var socket = io();
+
+                    socket.on('message', (message) => {
+                        if (message.classname == 'in-stock') {
+                            audio.play();
+                        }
+                        t.messages.unshift(message);
+                    });
+
+                    setInterval(function() {
+                        t.clock = dayjs().format('HH:mm:ss');
+                    }, 1000);
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
