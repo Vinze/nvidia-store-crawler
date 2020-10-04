@@ -69,9 +69,13 @@ function playSound() {
 function checkSite() {
     axios.get(config.site.url).then((response) => {
         var $ = cheerio.load(response.data);
-        var status = $('.cta-button').first().text();
+        var $button = $('.cta-button').first();
+        var status = $button.text();
 
-        if (status && status != config.site.nostock) {
+        if ($button.length == 0) {
+            sendSocketMsg('Site', 'Out of stock button not found', 'error');
+            writeLog('Site status: ' + 'Out of stock button not found'.brightRed);
+        } else if (status && status != config.site.nostock) {
             sendTelegramMsg(status);
             sendSocketMsg('Site', status, 'in-stock');
             writeLog('Site status: ' + status.brightGreen);
